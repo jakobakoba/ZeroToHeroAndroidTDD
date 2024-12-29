@@ -1,5 +1,6 @@
 package ru.easycode.zerotoheroandroidtdd
 
+import android.os.Build
 import android.os.Bundle
 
 interface BundleWrapper {
@@ -22,7 +23,11 @@ interface BundleWrapper {
         }
 
         override fun restore(): UiState {
-            return  bundle.getSerializable(KEY) as UiState
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                bundle.getSerializable(KEY, UiState::class.java)
+            } else {
+                bundle.getSerializable(KEY)
+            } as UiState
         }
     }
 

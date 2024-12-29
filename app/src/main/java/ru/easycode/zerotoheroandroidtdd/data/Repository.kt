@@ -16,8 +16,4 @@ interface Repository {
             }
         }
     }
-
-    companion object {
-        private const val URL = "https://raw.githubusercontent.com/JohnnySC/ZeroToHeroAndroidTDD/task/018-clouddatasource/app/sampleresponse.json"
-    }
 }
