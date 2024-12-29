@@ -1,0 +1,23 @@
+package ru.easycode.zerotoheroandroidtdd.data
+
+import ru.easycode.zerotoheroandroidtdd.LoadResult
+import java.net.UnknownHostException
+
+interface Repository {
+
+    suspend fun load (): LoadResult
+
+    class Base(private val service:SimpleService, private val url :String): Repository {
+        override suspend fun load(): LoadResult {
+            return try {
+                LoadResult.Success(service.fetch(url))
+            } catch (e:Exception){
+                LoadResult.Error(e is UnknownHostException)
+            }
+        }
+    }
+
+    companion object {
+        private const val URL = "https://raw.githubusercontent.com/JohnnySC/ZeroToHeroAndroidTDD/task/018-clouddatasource/app/sampleresponse.json"
+    }
+}
