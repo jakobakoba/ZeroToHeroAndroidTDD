@@ -5,6 +5,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyRightOf
@@ -17,7 +18,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.android.material.textfield.TextInputEditText
 import org.hamcrest.Matchers.allOf
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -77,25 +77,28 @@ class Task023Test {
 
 
         for (i in 0..10) {
-            onView(withId(R.id.inputEditText)).perform(typeText("text number $i"))
+            onView(withId(R.id.inputEditText)).perform(
+                typeText("text number $i"),
+                closeSoftKeyboard()
+            )
             onView(withId(R.id.actionButton)).perform(click())
             onView(withId(R.id.inputEditText)).check(matches(withText("")))
 
             onView(RecyclerViewMatcher(R.id.recyclerView).atPosition(i + 2, R.id.elementTextView))
                 .check(matches(withText("text number $i")))
         }
-//
-//        activityScenarioRule.scenario.recreate()
-//
-//        onView(RecyclerViewMatcher(R.id.recyclerView).atPosition(0, R.id.elementTextView))
-//            .check(matches(withText("first text")))
-//
-//        onView(RecyclerViewMatcher(R.id.recyclerView).atPosition(1, R.id.elementTextView))
-//            .check(matches(withText("second text")))
-//
-//        for (i in 0..10) {
-//            onView(RecyclerViewMatcher(R.id.recyclerView).atPosition(i + 2, R.id.elementTextView))
-//                .check(matches(withText("text number $i")))
-//        }
+
+        activityScenarioRule.scenario.recreate()
+
+        onView(RecyclerViewMatcher(R.id.recyclerView).atPosition(0, R.id.elementTextView))
+            .check(matches(withText("first text")))
+
+        onView(RecyclerViewMatcher(R.id.recyclerView).atPosition(1, R.id.elementTextView))
+            .check(matches(withText("second text")))
+
+        for (i in 0..10) {
+            onView(RecyclerViewMatcher(R.id.recyclerView).atPosition(i + 2, R.id.elementTextView))
+                .check(matches(withText("text number $i")))
+        }
     }
 }

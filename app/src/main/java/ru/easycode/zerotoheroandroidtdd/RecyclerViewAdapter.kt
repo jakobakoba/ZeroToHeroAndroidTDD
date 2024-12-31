@@ -1,14 +1,12 @@
 package ru.easycode.zerotoheroandroidtdd
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.easycode.zerotoheroandroidtdd.databinding.ItemListBinding
 
 class RecyclerViewAdapter(
-    var items: MutableList<ItemData>
+    var items: MutableList<String>
 ): RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder>() {
 
     inner class ItemViewHolder(val binding: ItemListBinding): RecyclerView.ViewHolder(binding.root)
@@ -20,7 +18,7 @@ class RecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.binding.elementTextView.text = items[position].toString()
+        holder.binding.elementTextView.text = items[position]
     }
 
     override fun getItemCount(): Int {

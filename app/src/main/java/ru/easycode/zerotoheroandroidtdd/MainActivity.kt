@@ -9,7 +9,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private var itemsList = mutableListOf<ItemData>()
+    private var itemsList = ArrayList<String>()
+
+    private var adapter: RecyclerViewAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,10 +29,28 @@ class MainActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             val text = editText.text.toString()
-            val item = ItemData(text)
+            val item = text
             itemsList.add(item)
             adapter.notifyItemInserted(itemsList.size - 1)
             editText.setText("")
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putStringArrayList(KEY, itemsList)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val items = savedInstanceState.getStringArrayList(KEY)
+        items?.let {
+            itemsList.addAll(it)
+            adapter?.notifyDataSetChanged()
+        }
+    }
+
+    companion object {
+        private const val KEY = "KEY"
     }
 }
