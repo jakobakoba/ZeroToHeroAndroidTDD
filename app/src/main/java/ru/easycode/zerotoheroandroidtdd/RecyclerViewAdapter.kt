@@ -1,29 +1,49 @@
 package ru.easycode.zerotoheroandroidtdd
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ru.easycode.zerotoheroandroidtdd.databinding.ItemListBinding
+import ru.easycode.zerotoheroandroidtdd.databinding.ItemLayoutBinding
 
-class RecyclerViewAdapter(
-    var items: MutableList<String>
-): RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder>() {
+class RecyclerViewAdapter() : RecyclerView.Adapter<MyItemViewHolder>() {
 
-    inner class ItemViewHolder(val binding: ItemListBinding): RecyclerView.ViewHolder(binding.root)
+    private val itemsList = ArrayList<CharSequence>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = ItemListBinding.inflate(layoutInflater, parent, false)
-        return ItemViewHolder(binding)
+    fun add(source: CharSequence) {
+        itemsList.add(source)
+        notifyItemInserted(itemsList.size - 1)
     }
 
-    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.binding.elementTextView.text = items[position]
+    fun save(bundle: Bundle) {
+        bundle.putCharSequenceArrayList(KEY, itemsList)
     }
 
-    override fun getItemCount(): Int {
-        return items.size
+    fun restore(bundle: Bundle) {
+        itemsList.addAll(bundle.getCharSequenceArrayList(KEY) ?: ArrayList())
+        notifyItemRangeInserted(0, itemsList.size)
     }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyItemViewHolder {
+        return MyItemViewHolder(ItemLayoutBinding.inflate(LayoutInflater.from(parent.context)))
+    }
 
+    override fun onBindViewHolder(holder: MyItemViewHolder, position: Int) {
+        holder.bind(itemsList[position])
+    }
+
+    override fun getItemCount(): Int = itemsList.size
+
+    companion object {
+        private const val KEY = "RecyclerViewAdapterKey"
+    }
+
+}
+
+
+class MyItemViewHolder(private val binding: ItemLayoutBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+    fun bind(source: CharSequence) {
+        binding.elementTextView.text = source
+    }
 }
