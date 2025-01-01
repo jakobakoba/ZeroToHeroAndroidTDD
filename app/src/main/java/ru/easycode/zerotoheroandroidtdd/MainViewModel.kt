@@ -4,7 +4,7 @@ class MainViewModel(
     private val listLiveDataWrapper: ListLiveDataWrapper
 ) {
 
-    fun add(text: String) {
+    fun add(text: String){
         listLiveDataWrapper.add(text)
     }
 
@@ -12,12 +12,10 @@ class MainViewModel(
         listLiveDataWrapper.save(bundle)
     }
 
-    fun restore(bundle : BundleWrapper.Restore){
-        val restoredList = bundle.restore()
-        listLiveDataWrapper.update(restoredList)
+    fun restore(bundle: BundleWrapper.Restore) {
+        val data = bundle.restore()
+        listLiveDataWrapper.update(data)
     }
 
     fun liveData() = listLiveDataWrapper.liveData()
-
-
 }
