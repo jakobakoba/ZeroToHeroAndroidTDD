@@ -2,7 +2,7 @@ package ru.easycode.zerotoheroandroidtdd.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import ru.easycode.zerotoheroandroidtdd.Screen
+import ru.easycode.zerotoheroandroidtdd.core.Screen
 import ru.easycode.zerotoheroandroidtdd.list.ListScreen
 
 class MainViewModel(

@@ -11,13 +11,14 @@ interface ViewModelFactory: ProvideViewModel, ClearViewModel {
         private val map = mutableMapOf<Class<out ViewModel>, ViewModel>()
 
         override fun <T : ViewModel> viewModel(viewModelClass: Class<T>): T {
-            return if (viewModelClass in map){
-                map[viewModelClass] as T
-            } else {
-                val viewModel =  provideViewModel.viewModel(viewModelClass)
-                map[viewModelClass] = viewModel
-                viewModel
-            }
+            val viewModel = map[viewModelClass]
+            return if (viewModel == null)
+                provideViewModel.viewModel(viewModelClass).also {
+                    map[viewModelClass] = it
+                }
+            else
+                viewModel as T
+
         }
 
         override fun clear(viewModelClass: Class<out ViewModel>) {

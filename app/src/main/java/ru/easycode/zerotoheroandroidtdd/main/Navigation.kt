@@ -1,7 +1,7 @@
 package ru.easycode.zerotoheroandroidtdd.main
 
-import ru.easycode.zerotoheroandroidtdd.Screen
 import ru.easycode.zerotoheroandroidtdd.core.LiveDataWrapper
+import ru.easycode.zerotoheroandroidtdd.core.Screen
 
 interface Navigation {
 
