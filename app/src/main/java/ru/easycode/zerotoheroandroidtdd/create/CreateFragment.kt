@@ -15,6 +15,12 @@ class CreateFragment: AbstractFragment<FragmentCreateBinding>()  {
         return FragmentCreateBinding.inflate(inflater, container, false)
     }
 
+    private lateinit var viewModel: CreateViewModel
+
+    private val onBackPressedCallback = object: OnBackPressedCallback(true){
+        override fun handleOnBackPressed() = viewModel.comeback()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -33,5 +39,10 @@ class CreateFragment: AbstractFragment<FragmentCreateBinding>()  {
             viewModel.add(binding.inputEditText.text.toString())
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        onBackPressedCallback.remove()
     }
 }
